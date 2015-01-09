@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreatePropertyValuesTable extends Migration {
+
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+        // Creates the Properties table
+        Schema::create('property_values', function (Blueprint $table) {
+
+            $table->increments('id');
+            $table->integer('property_id');
+            $table->string('value');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+	}
+
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		// drops property_values table
+		Schema::drop('property_values');
+	}
+
+}

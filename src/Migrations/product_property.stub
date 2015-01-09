@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateProductPropertyTable extends Migration {
+
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+        // Creates the Properties table
+        Schema::create('product_property', function (Blueprint $table) {
+        	
+            $table->integer('product_id');
+            $table->integer('property_id');
+        });
+	}
+
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		// drops product_property table
+		Schema::drop('product_property');
+	}
+
+}
