@@ -30,7 +30,6 @@ class CreatePropertyValuesTable extends Migration {
 	 */
 	public function down()
 	{
-		// drops property_values table
 		Schema::drop('property_values');
 	}
 

@@ -1,4 +1,4 @@
-<?php namespace Jiro\Property;
+<?php namespace Jiro\Product\Property;
 
 /**
  * Property value interface.

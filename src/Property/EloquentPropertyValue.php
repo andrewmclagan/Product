@@ -1,4 +1,4 @@
-<?php namespace Jiro\Property\Eloquent;
+<?php namespace Jiro\Product\Property;
 
 use Illuminate\Database\Eloquent\Model;
 use Jiro\Product\ProductInterface;
@@ -9,7 +9,7 @@ use Jiro\Product\ProductInterface;
  * @author Andrew McLagan <andrewmclagan@gmail.com>
  */
 
-class PropertyValue extends Model implements PropertyValueInterface
+class EloquentPropertyValue extends Model implements PropertyValueInterface
 {
     /** 
      * {@inheritdoc}

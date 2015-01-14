@@ -1,8 +1,8 @@
 <?php namespace Jiro\Product;
 
 use Illuminate\Support\ServiceProvider;
-use Jiro\Property\Eloquent\Property;
-use Jiro\Product\Eloquent\Product;
+use Jiro\Property\EloquentProperty as Property;
+use Jiro\EloquentProduct as Product;
 
 class ProductServiceProvider extends ServiceProvider {
 
@@ -20,7 +20,7 @@ class ProductServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-        $this->app->bind('Jiro\Property\PropertyInterface', function()
+        $this->app->bind('Jiro\Product\Property\PropertyInterface', function()
         {
             return new Property;
         });
@@ -28,6 +28,8 @@ class ProductServiceProvider extends ServiceProvider {
         {
             return new Product;
         });   
+
+        $this->registerCommands();
 	}
 
 	/**
@@ -39,7 +41,7 @@ class ProductServiceProvider extends ServiceProvider {
 	{
 		$this->app->singleton('command.jiro.product.install', function($app)
 		{
-			return new Console\InstallCommand($app['files']);
+			return new Console\InstallCommand($app['files'], $app['composer']);
 		});
 
 		$this->commands('command.jiro.product.install');
@@ -53,7 +55,7 @@ class ProductServiceProvider extends ServiceProvider {
 	public function provides()
 	{
 		return [
-			'Jiro\Property\PropertyInterface',
+			'Jiro\Product\Property\PropertyInterface',
 			'Jiro\Product\ProductInterface',
 		];
 	}

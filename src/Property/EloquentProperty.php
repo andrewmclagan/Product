@@ -1,8 +1,8 @@
-<?php namespace Jiro\Property\Eloquent;
+<?php namespace Jiro\Product\Property;
 
 use Illuminate\Database\Eloquent\Model;
-use Jiro\Property\PropertyInterface;
-use Jiro\Property\PropertyTypes;
+use Jiro\Product\Property\PropertyInterface;
+use Jiro\Product\Property\PropertyTypes;
 use Jiro\Product\ProductInterface;
 
 /**
@@ -11,7 +11,7 @@ use Jiro\Product\ProductInterface;
  * @author Andrew McLagan <andrewmclagan@gmail.com>
  */
 
-class Property extends Model implements PropertyInterface
+class EloquentProperty extends Model implements PropertyInterface
 {
     /** 
      * {@inheritdoc}
@@ -37,7 +37,7 @@ class Property extends Model implements PropertyInterface
      */
     public function products()
     {
-        return $this->belongsToMany('Product', 'product_property', 'property_id', 'product_id');
+        return $this->belongsToMany('Jiro\Product', 'product_property', 'property_id', 'product_id');
     }  
 
     /** 

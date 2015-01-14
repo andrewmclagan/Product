@@ -1,14 +1,15 @@
-<?php namespace Jiro\Console;
+<?php namespace Jiro\Product\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Foundation\Composer;
 
 ///////////// SPEC ME OUT
 ///////////// SPEC ME OUT
 ///////////// SPEC ME OUT
 ///////////// SPEC ME OUT
 
-class InstallCommand extends BaseCommand {
+class InstallCommand extends Command {
 
 	/**
 	 * The console command name.
@@ -32,16 +33,25 @@ class InstallCommand extends BaseCommand {
 	protected $fileSystem; 
 
 	/**
+	 * The composer instance.
+	 *
+	 * @var \Illuminate\Foundation\Composer
+	 */
+	protected $composer; 	
+
+	/**
 	 * Create a new session table command instance.
 	 *
 	 * @param  \Illuminate\Filesystem\Filesystem $fileSystem
+	 * @param  \Illuminate\Foundation\Composer $composer
 	 * @return void
 	 */
-	public function __construct(Filesystem $fileSystem)
+	public function __construct(Filesystem $fileSystem, Composer $composer)
 	{
 		parent::__construct();
 
-		$this->files = $fileSystem;
+		$this->fileSystem = $fileSystem;
+		$this->composer = $composer;
 	}	
 
 	/**
@@ -74,22 +84,22 @@ class InstallCommand extends BaseCommand {
 	}
 
 	/**
-	 * Create a base migration files for the tables.
+	 * Create migration files for the tables.
 	 *
 	 * @return string
 	 */
 	protected function createMigrations()
 	{
-		foreach(self::getMigrations() as $migrationName => $stubPath)
+		foreach(self::getMigrations() as $migrationName => $stub)
 		{
 			$path = $this->createMigrationFile($migrationName);
 
-			$this->createMigrationContent($path, $stubPath);
+			$this->createMigrationContent($path, $stub);
 		}
 	}
 
 	/**
-	 * Creates the filename and file for the migration
+	 * Generates the filename and empty file for the migration
 	 *
 	 * @param  string  $migrationName
 	 * @return string
@@ -105,12 +115,12 @@ class InstallCommand extends BaseCommand {
 	 * Creates the content of the migration from a stub
 	 *
 	 * @param  string  $path
-	 * @param  string  $stubPath
+	 * @param  string  $stub
 	 * @return void
 	 */
-	protected function createMigrationContent($path, $stubPath)
+	protected function createMigrationContent($path, $stub)
 	{
-		$migrationStub = $this->fileSystem->get(__DIR__.'/../Migrations/'.$stubPath);
+		$migrationStub = $this->fileSystem->get(__DIR__.'/../Migrations/'.$stub);
 
 		$this->fileSystem->put($path, $migrationStub);
 	}

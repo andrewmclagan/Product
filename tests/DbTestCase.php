@@ -1,7 +1,8 @@
 <?php namespace Jiro\Product\Tests;
 
 use Illuminate\Foundation\Testing\TestCase;
-use Artisan, DB;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Filesystem\ClassFinder;
 
 abstract class DbTestCase extends TestCase {
 
@@ -12,7 +13,9 @@ abstract class DbTestCase extends TestCase {
 	 */
 	public function createApplication()
 	{
-		$app = require __DIR__.'/../../../../bootstrap/app.php';
+		$app = require __DIR__.'/../vendor/laravel/laravel/bootstrap/app.php';
+
+		$app->register('Jiro\Product\ProductServiceProvider');
 
 		$app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
@@ -20,26 +23,38 @@ abstract class DbTestCase extends TestCase {
 	}	
 
 	/**
-	 * Setup the DB before each test.
+	 * Setup DB before each test.
+	 *
+	 * @return void	 
 	 */
 	public function setUp()
 	{ 
 		parent::setUp();
 
-		// This should only do work for Sqlite DBs in memory.
-		Artisan::call('migrate', ['--bench'=>'jiro/product']);
+		//Factory::$factoriesPath = __DIR__.'/factories';
 
-		// // We'll run all tests through a transaction,
-		// // and then rollback afterward.
-		//DB::beginTransaction();
+		$this->app['config']->set('database.default','sqlite');	
+		$this->app['config']->set('database.connections.sqlite.database', ':memory:');
+
+		$this->migrate();
 	}
 
 	/**
-	 * Rollback transactions after each test.
+	 * run package database migrations
+	 *
+	 * @return void
 	 */
-	public function tearDown()
-	{
-		//DB::rollback();
-	}
+	public function migrate()
+	{ 
+		$fileSystem = new Filesystem;
+		$classFinder = new ClassFinder;
 
+		foreach($fileSystem->files(__DIR__ . "/../src/Migrations") as $file)
+		{
+			$fileSystem->requireOnce($file);
+			$migrationClass = $classFinder->findClass($file);
+			
+			(new $migrationClass)->up();
+		}
+	}		
 }

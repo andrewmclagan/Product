@@ -17,8 +17,8 @@ class CreatePropertiesTable extends Migration {
         	
             $table->increments('id');
             $table->string('name');
-            $table->string('presentation');
-            $table->string('type');
+            $table->string('presentation')->nullable();
+            $table->string('type')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -31,7 +31,6 @@ class CreatePropertiesTable extends Migration {
 	 */
 	public function down()
 	{
-		// drops properties table
 		Schema::drop('properties');
 	}
 

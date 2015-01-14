@@ -1,7 +1,7 @@
 <?php namespace Jiro\Product\Tests;
 
-use Jiro\Product\Eloquent\Product;
-use Jiro\Property\Eloquent\Property;
+use Jiro\Product\EloquentProduct as Product;
+use Jiro\Product\Property\EloquentProperty as Property;
 use Laracasts\TestDummy\Factory;
 
 class EloquentProductTest extends DbTestCase {
@@ -59,7 +59,7 @@ class EloquentProductTest extends DbTestCase {
 
 	public function test_product_is_available_by_default()
 	{
-		$product = new Product;
+		dd(Factory::create('Product')); exit;
 
 		$this->assertEquals(true, $product->isAvailable());
 	}	
@@ -82,7 +82,9 @@ class EloquentProductTest extends DbTestCase {
 	public function test_it_can_recieve_new_properties()
 	{
 		// build
-		//$product = Product::create(['name' => 'Super Product']);
+		$product = Factory::create('Product');
+		//$product->save();
+		//$this->assertEquals($product->getName(), 'Super Product');		
 		//$properties = Property::where('type', '=', 'text')->take(3)->get();	
 		//$product->setProperties($properties);
 

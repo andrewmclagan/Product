@@ -14,19 +14,16 @@
         "phpunit/phpunit": "~4.0",
         "phpspec/phpspec": "~2.1",
         "laracasts/testdummy": "~2.0",
-        "laravel/framework": "5.0.*@dev"
+        "laravel/laravel": "dev-develop"
     },    
     "autoload": {
-        "classmap": [
-            "src/migrations"
-        ],
         "psr-4": {
             "Jiro\\Product\\": "src/"
         }      
     },
     "autoload-dev": {      
         "psr-4": { 
-            "Jiro\\Product\\spec\\": "spec/", 
+            "Jiro\\Product\\spec\\": "spec/",
             "Jiro\\Product\\Tests\\": "tests/"
         }
     },      

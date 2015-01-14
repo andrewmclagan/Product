@@ -1,6 +1,6 @@
 <?php namespace Jiro\Product;
 
-use Jiro\Property\PropertyInterface;
+use Jiro\Product\Property\PropertyInterface;
 
 /**
  * Gives the product "property" abilities

@@ -1,8 +1,8 @@
-<?php namespace Jiro\Product\Eloquent;
+<?php namespace Jiro\Product;
 
 use Illuminate\Database\Eloquent\Model;
 use Jiro\Product\ProductInterface;
-use Jiro\Property\PropertyInterface;
+use Jiro\Product\Property\PropertyInterface;
 
 /**
  * Catalog product model.
@@ -10,7 +10,7 @@ use Jiro\Property\PropertyInterface;
  * @author Andrew McLagan <andrewmclagan@gmail.com>
  */
 
-class Product extends Model implements ProductInterface
+class EloquentProduct extends Model implements ProductInterface
 {
     /**
      * The table associated with the model.
@@ -165,7 +165,7 @@ class Product extends Model implements ProductInterface
     public function properties()
     {
         return $this->belongsToMany(
-            'Jiro\Property\Eloquent\Property', 
+            'Jiro\Product\Property\Property', 
             'product_property', 
             'product_id', 
             'property_id'
