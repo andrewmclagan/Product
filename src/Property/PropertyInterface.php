@@ -13,14 +13,7 @@ interface PropertyInterface
      *
      * @return Collection|ProductInterface[]
      */
-    public function products();
-
-    /**
-     * Returns all the properties values.
-     *
-     * @return Collection|PropertyValueInterface[]
-     */
-    public function values();    
+    public function products();  
 
     /**
      * Get internal name.

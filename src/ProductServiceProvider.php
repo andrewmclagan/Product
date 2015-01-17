@@ -1,8 +1,8 @@
 <?php namespace Jiro\Product;
 
 use Illuminate\Support\ServiceProvider;
-use Jiro\Property\EloquentProperty as Property;
-use Jiro\EloquentProduct as Product;
+use Jiro\Product\Property\EloquentProperty as Property;
+use Jiro\Product\EloquentProduct as Product;
 
 class ProductServiceProvider extends ServiceProvider {
 
@@ -24,6 +24,7 @@ class ProductServiceProvider extends ServiceProvider {
         {
             return new Property;
         });
+        
         $this->app->bind('Jiro\Product\ProductInterface', function()
         {
             return new Product;

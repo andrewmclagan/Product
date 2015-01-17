@@ -39,7 +39,7 @@ class EloquentProduct extends Model implements ProductInterface
 
         if (!array_key_exists('available_on', $attributes))
         {
-            $this->setAvailableOn(new \DateTime());
+            $this->setAvailableOn(new \Carbon\Carbon);
         }
     }
 
@@ -165,7 +165,7 @@ class EloquentProduct extends Model implements ProductInterface
     public function properties()
     {
         return $this->belongsToMany(
-            'Jiro\Product\Property\Property', 
+            'Jiro\Product\Property\EloquentProperty', 
             'product_property', 
             'product_id', 
             'property_id'
@@ -186,11 +186,8 @@ class EloquentProduct extends Model implements ProductInterface
      * {@inheritdoc}
      */
     public function addProperty(PropertyInterface $property)
-    {            
-        if (!$this->hasProperty($property)) 
-        {
-            $this->properties()->attach($property);
-        }
+    {             
+        $this->properties()->attach($property);
 
         return $this;        
     }
@@ -201,9 +198,8 @@ class EloquentProduct extends Model implements ProductInterface
     public function removeProperty(PropertyInterface $property)
     {
         if ($this->hasProperty($property)) 
-        {
-            $this->properties()->detach($property);
-            $property->setProduct(null); /// ??
+        { 
+            $property->products()->detach($this->getKey());
         }
 
         return $this;        
@@ -215,7 +211,7 @@ class EloquentProduct extends Model implements ProductInterface
     public function hasProperty(PropertyInterface $property)
     {
         
-        return $this->properties->contains($property->getKey());        
+        return $this->properties->contains($property);        
     }
 
     /** 
@@ -225,7 +221,10 @@ class EloquentProduct extends Model implements ProductInterface
     {
         foreach ($this->properties as $property) 
         {
-            return ($property->getName() === $propertyName);
+            if($property->getName() === $propertyName)
+            {
+                return true;
+            }
         }
 
         return false;        

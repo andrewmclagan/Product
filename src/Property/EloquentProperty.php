@@ -37,16 +37,8 @@ class EloquentProperty extends Model implements PropertyInterface
      */
     public function products()
     {
-        return $this->belongsToMany('Jiro\Product', 'product_property', 'property_id', 'product_id');
-    }  
-
-    /** 
-     * {@inheritdoc}
-     */
-    public function values()
-    {
-        return $this->hasMany('PropertyValue');
-    }     
+        return $this->belongsToMany('Jiro\Product\EloquentProduct', 'product_property', 'property_id', 'product_id');
+    }        
 
     /** 
      * {@inheritdoc}
@@ -80,6 +72,8 @@ class EloquentProperty extends Model implements PropertyInterface
     public function setPresentation($presentationName)
     {
         $this->presentation = $presentationName;
+
+        return $this;
     }
 
     /** 

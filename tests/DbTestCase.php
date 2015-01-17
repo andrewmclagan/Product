@@ -31,8 +31,6 @@ abstract class DbTestCase extends TestCase {
 	{ 
 		parent::setUp();
 
-		//Factory::$factoriesPath = __DIR__.'/factories';
-
 		$this->app['config']->set('database.default','sqlite');	
 		$this->app['config']->set('database.connections.sqlite.database', ':memory:');
 
@@ -42,9 +40,10 @@ abstract class DbTestCase extends TestCase {
 	/**
 	 * run package database migrations
 	 *
+	 * @param string $operation
 	 * @return void
 	 */
-	public function migrate()
+	public function migrate($operation = 'up')
 	{ 
 		$fileSystem = new Filesystem;
 		$classFinder = new ClassFinder;
@@ -54,7 +53,7 @@ abstract class DbTestCase extends TestCase {
 			$fileSystem->requireOnce($file);
 			$migrationClass = $classFinder->findClass($file);
 			
-			(new $migrationClass)->up();
+			(new $migrationClass)->{$operation}();
 		}
-	}		
+	}			
 }

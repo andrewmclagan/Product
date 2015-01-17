@@ -36,7 +36,7 @@ class EloquentPropertyValue extends Model implements PropertyValueInterface
      */
     public function property()
     {
-        return $this->hasOne('Property');
+        return $this->hasOne('Jiro\Product\Property\PropertyInterface');
     }
 
     /** 
