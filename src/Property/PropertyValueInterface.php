@@ -30,6 +30,13 @@ interface PropertyValueInterface
     public function setProperty(PropertyInterface $property);
 
     /**
+     * Set product.
+     *
+     * @param ProductInterface $product
+     */
+    public function setProduct(ProductInterface $product);    
+
+    /**
      * Get property value.
      *
      * @return mixed
