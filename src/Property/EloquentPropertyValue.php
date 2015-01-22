@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Jiro\Product\ProductInterface;
+use Jiro\Product\Property\PropertyInterface;
 
 /**
  *  Model for product properties.
@@ -28,7 +29,7 @@ class EloquentPropertyValue extends Model implements PropertyValueInterface
      */
     public function product()
     {
-        return null;
+        return $this->belongsTo('Jiro\Product\EloquentProduct');
     }
 
     /** 
@@ -36,7 +37,7 @@ class EloquentPropertyValue extends Model implements PropertyValueInterface
      */
     public function property()
     {
-        return $this->hasOne('Jiro\Product\Property\PropertyInterface');
+        return $this->belongsTo('Jiro\Product\Property\EloquentProperty');
     }
 
     /** 
@@ -44,10 +45,20 @@ class EloquentPropertyValue extends Model implements PropertyValueInterface
      */
     public function setProperty(PropertyInterface $property)
     {
-        $property->values()->save($this);
+        $this->property()->associate($property);
 
         return $this;
     }
+
+    /** 
+     * {@inheritdoc}
+     */
+    public function setProduct(ProductInterface $product)
+    {
+        $this->product()->associate($product);
+
+        return $this;
+    }    
 
     /** 
      * {@inheritdoc}
@@ -65,29 +76,17 @@ class EloquentPropertyValue extends Model implements PropertyValueInterface
         $this->value = $value;
 
         return $this;
-    }
-
-    /**
-     * Proxy method to access the name from real property.
-     *
-     * @return mixed
-     */
-    protected function getPropertyAttribute($attribute)
-    {
-        if ($this->property instanceof PropertyInterface)
-        {
-            return $this->property->{$attribute};
-        }
-
-        return null;
-    }    
+    }  
 
     /** 
      * {@inheritdoc}
      */
     public function getName()
     {
-        return $this->getPropertyAttribute('name');
+        if($this->property)
+        {
+            return $this->property->getName();
+        }
     }
 
     /** 
@@ -95,7 +94,10 @@ class EloquentPropertyValue extends Model implements PropertyValueInterface
      */
     public function getPresentation()
     {
-        return $this->getPropertyAttribute('presentation');      
+        if($this->property)
+        {
+            return $this->property->getPresentation();
+        }
     }
 
     /** 
@@ -103,6 +105,9 @@ class EloquentPropertyValue extends Model implements PropertyValueInterface
      */
     public function getType()
     {
-        return $this->getPropertyAttribute('type');   
+        if($this->property)
+        {
+            return $this->property->getType();
+        }
     }
 }

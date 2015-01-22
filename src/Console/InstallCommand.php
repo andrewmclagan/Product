@@ -23,24 +23,10 @@ class InstallCommand extends Command {
 	 *
 	 * @var string
 	 */
-	protected $description = 'Run the database migrations';	
+	protected $description = 'Install the product package';	
 
 	/**
-	 * The filesystem instance.
-	 *
-	 * @var \Illuminate\Filesystem\Filesystem
-	 */
-	protected $fileSystem; 
-
-	/**
-	 * The composer instance.
-	 *
-	 * @var \Illuminate\Foundation\Composer
-	 */
-	protected $composer; 	
-
-	/**
-	 * Create a new session table command instance.
+	 * constructor
 	 *
 	 * @param  \Illuminate\Filesystem\Filesystem $fileSystem
 	 * @param  \Illuminate\Foundation\Composer $composer
@@ -59,7 +45,7 @@ class InstallCommand extends Command {
 	 *
 	 * @return array
 	 */
-	protected static function getMigrations()
+	public static function getMigrations()
 	{
 		return [
 			'create_products_table' => 'products.stub',

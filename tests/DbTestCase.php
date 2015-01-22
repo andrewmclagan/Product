@@ -48,7 +48,7 @@ abstract class DbTestCase extends TestCase {
 		$fileSystem = new Filesystem;
 		$classFinder = new ClassFinder;
 
-		foreach($fileSystem->files(__DIR__ . "/../src/Migrations") as $file)
+		foreach($fileSystem->files(__DIR__ . "/../src/Migrations/stubs") as $file)
 		{
 			$fileSystem->requireOnce($file);
 			$migrationClass = $classFinder->findClass($file);

@@ -12,9 +12,9 @@ class EloquentProductTest extends DbTestCase {
 	public function its_name_attribute_is_mutable()
 	{
 		$product = Factory::create('Product');
-		$product->setName('Super Product');
+		$product->setName('Takoyaki');
 
-		$this->assertEquals('Super Product', $product->getName());
+		$this->assertEquals('Takoyaki', $product->getName());
 	}
 
 	/** @test */
@@ -165,7 +165,7 @@ class EloquentProductTest extends DbTestCase {
 		$date = new Carbon();
 		$product = new Product;
 
-		$this->assertEquals($product, $product->setName('Super Product'));
+		$this->assertEquals($product, $product->setName('Takoyaki'));
 		$this->assertEquals($product, $product->setSlug('Super-Product'));
 		$this->assertEquals($product, $product->setDescription('Super Product description'));
 		$this->assertEquals($product, $product->setAvailableOn($date));

@@ -1,5 +1,8 @@
 <?php namespace Jiro\Product\Property;
 
+use Jiro\Product\ProductInterface;
+use Jiro\Product\Property\PropertyInterface;
+
 /**
  * Property value interface.
  *
