@@ -1,7 +1,7 @@
 Product ![Build status...](https://travis-ci.org/Jiro-Commerce/Product.svg?branch=master)
 =======
 
-Jiro product catalog comes with support for product options, variations and properties.
+A flexible framework agnostic PHP product catalog with support for Variations, Options and Properties.
 
 ### Properties
 
