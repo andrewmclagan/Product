@@ -1,6 +1,7 @@
 <?php namespace Jiro\Product\Option;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Jiro\Product\Option\OptionValueInterface;
 
 /**
@@ -11,17 +12,23 @@ use Jiro\Product\Option\OptionValueInterface;
 
 class EloquentOptionValue extends Model implements OptionValueInterface
 {
-     /** 
-     * {@inheritdoc}
+    use SoftDeletes;
+    
+    /**
+     * The table associated with the model.
+     *
+     * @var string
      */
     protected $table = 'option_values';
 
-    /** 
-     * {@inheritdoc}
+    /**
+     * White list of fillable attributes.
+     *
+     * @var array
      */
     protected $fillable = [
         'value', 
-        'option',
+        'option_id'
     ];
 
     /**
@@ -47,7 +54,7 @@ class EloquentOptionValue extends Model implements OptionValueInterface
      */
     public function option()
     {
-        return $this->hasOne('Jiro\Product\Option\EloquentOption');
+        return $this->belongsTo('Jiro\Product\Option\EloquentOption','option_id');
     }
 
     /**
@@ -55,7 +62,7 @@ class EloquentOptionValue extends Model implements OptionValueInterface
      */
     public function setOption(OptionInterface $option = null)
     {
-        $this->option = $option;
+        $this->option()->associate($option);
 
         return $this;
     }

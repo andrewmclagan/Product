@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Jiro\Product\Option\OptionInterface;
 
 /**
@@ -12,6 +13,8 @@ use Jiro\Product\Option\OptionInterface;
 
 class EloquentOption extends Model implements OptionInterface
 {
+    use SoftDeletes;
+
     /**
      * The table associated with the model.
      *
@@ -27,7 +30,6 @@ class EloquentOption extends Model implements OptionInterface
     protected $fillable = [
         'name', 
         'presentation', 
-        'values',
     ];
 
     /**
@@ -71,7 +73,7 @@ class EloquentOption extends Model implements OptionInterface
      */
     public function values()
     {
-        return $this->hasMany('Jiro\Product\Option\EloquentOptionValue', 'option_id');
+        return $this->hasMany('Jiro\Product\Option\EloquentOptionValue','option_id');
     }
 
     /**
@@ -79,20 +81,24 @@ class EloquentOption extends Model implements OptionInterface
      */
     public function setValues($values)
     {
-        $this->values()->saveMany($values);
-
+        if($values === null)
+        {
+            $this->removeAllValues();
+        }
+        else 
+        {
+            $this->values()->saveMany($values);
+        }
+        
         return $this;       
     }
 
     /**
      * {@inheritdoc}
      */
-    public function addValue(OptionValueInterface $value)
-    {   
-        if (!$this->hasValue($value)) 
-        {
-            $this->values()->save($value);
-        }
+    public function addValue($value)
+    {    
+        $this->values()->save($value);
 
         return $this;
     }
@@ -100,20 +106,30 @@ class EloquentOption extends Model implements OptionInterface
     /**
      * {@inheritdoc}
      */
-    public function removeValue(OptionValueInterface $value)
+    public function removeValue($value)
     {
-        if ($this->values->contains($value)) {
+        $value->delete(); 
 
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeAllValues()
+    {
+        foreach($this->values as $value)
+        {
             $value->delete();
         }
 
         return $this;
-    }
+    }    
 
     /**
      * {@inheritdoc}
      */
-    public function hasValue(OptionValueInterface $value)
+    public function hasValue($value)
     {
         return $this->values->contains($value);
     }

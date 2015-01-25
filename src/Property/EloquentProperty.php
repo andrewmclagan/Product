@@ -1,6 +1,7 @@
 <?php namespace Jiro\Product\Property;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Jiro\Product\Property\PropertyInterface;
 use Jiro\Product\Property\PropertyTypes;
 use Jiro\Product\ProductInterface;
@@ -13,13 +14,19 @@ use Jiro\Product\ProductInterface;
 
 class EloquentProperty extends Model implements PropertyInterface
 {
-    /** 
-     * {@inheritdoc}
+    use SoftDeletes;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
      */
     protected $table = 'properties';
 
-    /** 
-     * {@inheritdoc}
+    /**
+     * White list of fillable attributes.
+     *
+     * @var array
      */
     protected $fillable = [
         'name', 

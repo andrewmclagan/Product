@@ -61,14 +61,20 @@ interface OptionInterface
      *
      * @param OptionValueInterface $optionValue
      */
-    public function addValue(OptionValueInterface $optionValue);
+    public function addValue($value);
 
     /**
      * Removes option value.
      *
      * @param OptionValueInterface $optionValue
      */
-    public function removeValue(OptionValueInterface $optionValue);
+    public function removeValue($value);
+
+    /**
+     * Removes all option values.
+     *
+     */
+    public function removeAllValues();    
 
     /**
      * Checks whether option has given value.
@@ -77,5 +83,5 @@ interface OptionInterface
      *
      * @return Boolean
      */
-    public function hasValue(OptionValueInterface $optionValue);
+    public function hasValue($optionValue);
 }

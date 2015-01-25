@@ -1,6 +1,7 @@
 <?php namespace Jiro\Product;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Jiro\Product\ProductInterface;
 use Jiro\Product\Property\PropertyInterface;
 
@@ -12,6 +13,8 @@ use Jiro\Product\Property\PropertyInterface;
 
 class EloquentProduct extends Model implements ProductInterface
 {
+    use SoftDeletes;
+
     /**
      * The table associated with the model.
      *
