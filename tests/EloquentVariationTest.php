@@ -1,5 +1,6 @@
 <?php namespace Jiro\Product\Tests;
 
+use Illuminate\Database\Eloquent\Collection;
 use Laracasts\TestDummy\Factory;
 
 class EloquentVariationTest extends DbTestCase {
@@ -63,9 +64,56 @@ class EloquentVariationTest extends DbTestCase {
     	$this->assertEquals($variation->getPresentation(), 'Super Variant');    	
     }
 
+    /** @test */
+    public function its_option_values_should_be_mutable()
+    {
+    	$variation = Factory::create('Variation');
+    	$options = new Collection([
+			Factory::create('OptionValue'),
+			Factory::create('OptionValue'),
+			Factory::create('OptionValue'),
+		]);
+
+		$variation->setOptions($options->all());
+
+		$this->assertEquals($variation->options->modelKeys(), $options->modelKeys());
+    }
+
+    /** @test */
+    public function it_should_add_option_value_properly()
+    {
+    	$variation = Factory::create('Variation');
+    	$option = Factory::create('OptionValue');	
+
+    	$variation->addOption($option);
+
+    	$this->assertEquals($variation->hasOption($option), true);
+    }
+
+    /** @test */
+    public function it_should_remove_option_value_properly()
+    {
+    	$variation = Factory::create('Variation');
+    	$option = Factory::create('OptionValue');	
+
+    	$variation->addOption($option);
+    	$this->assertEquals($variation->hasOption($option), true);    	
+
+    	$variation = $variation->removeOption($option)->fresh();
+    	$this->assertEquals($variation->hasOption($option), false);    	    	
+    }
+
+    /** @test */
+    public function it_throws_exception_if_trying_to_inherit_values_and_being_a_master_variant()
+    {
+    	// TODO: Write exception tests for this behaviour, very important.
+    }
+
 	/** @test */
 	public function it_has_fluent_interface() 
 	{
+		$variation = Factory::create('Variation');
 
+		$this->assertEquals($variation, $variation->setPresentation('some name'));
 	}					
 }

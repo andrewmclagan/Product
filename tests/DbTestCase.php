@@ -45,6 +45,11 @@ abstract class DbTestCase extends TestCase {
 	 */
 	public function migrate($operation = 'up')
 	{ 
+		// TODO: we should move all this into a migrator class
+		// as its not the responsibility of the test case
+		// to migrate the database, also we can reuse this in the 
+		// install command.
+		
 		$fileSystem = new Filesystem;
 		$classFinder = new ClassFinder;
 

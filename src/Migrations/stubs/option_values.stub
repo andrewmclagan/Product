@@ -17,6 +17,7 @@ class CreateOptionValuesTable extends Migration {
        Schema::create('option_values', function (Blueprint $table) {
         	
             $table->increments('id');
+           	$table->integer('variation_id')->nullable();
            	$table->integer('option_id')->nullable();
             $table->string('value')->nullable();
             $table->timestamps();

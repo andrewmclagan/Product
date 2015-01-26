@@ -58,28 +58,28 @@ interface VariationInterface
      *
      * @return Collection|OptionValueInterface[]
      */
-    public function getOptions();
+    public function options();
 
     /**
      * Sets all variant options.
      *
      * @param Collection $options
      */
-    public function setOptions(Collection $options);
+    public function setOptions($options);
 
     /**
      * Adds option value.
      *
      * @param OptionValueInterface $option
      */
-    public function addOption(OptionValueInterface $option);
+    public function addOption($option);
 
     /**
      * Removes option from variant.
      *
      * @param OptionValueInterface $option
      */
-    public function removeOption(OptionValueInterface $option);
+    public function removeOption($option);
 
     /**
      * Checks whether variant has given option.
@@ -88,7 +88,7 @@ interface VariationInterface
      *
      * @return Boolean
      */
-    public function hasOption(OptionValueInterface $option);
+    public function hasOption($option);
 
     /**
      * This method is used by product variants to inherit values
@@ -98,5 +98,5 @@ interface VariationInterface
      *
      * @param VariantInterface $masterVariant
      */
-    public function setDefaults(VariantInterface $masterVariant);
+    public function setDefaults($masterVariant);
 }

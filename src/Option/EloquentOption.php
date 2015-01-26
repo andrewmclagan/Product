@@ -73,7 +73,7 @@ class EloquentOption extends Model implements OptionInterface
      */
     public function values()
     {
-        return $this->hasMany('Jiro\Product\Option\EloquentOptionValue','option_id');
+        return $this->hasMany('Jiro\Product\Option\EloquentOptionValue');
     }
 
     /**

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Jiro\Product\ProductInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Jiro\Product\Property\PropertyInterface;
 
 /**
@@ -167,12 +167,7 @@ class EloquentProduct extends Model implements ProductInterface
      */
     public function properties()
     {
-        return $this->belongsToMany(
-            'Jiro\Product\Property\EloquentProperty', 
-            'product_property', 
-            'product_id', 
-            'property_id'
-        );
+        return $this->hasMany('Jiro\Product\Property\EloquentPropertyValue','product_id');
     }
 
     /** 
@@ -180,7 +175,12 @@ class EloquentProduct extends Model implements ProductInterface
      */
     public function setProperties($properties)
     {
-        $this->properties()->sync($properties, false);
+        if (!$properties instanceof Collection)
+        {
+            throw new \InvalidArgumentException('Properties must be an instance of Illuminate\Database\Eloquent\Collection');
+        }
+
+        $this->properties()->saveMany($properties->all());
 
         return $this;        
     }
@@ -188,9 +188,9 @@ class EloquentProduct extends Model implements ProductInterface
     /** 
      * {@inheritdoc}
      */
-    public function addProperty(PropertyInterface $property)
+    public function addProperty(PropertyValueInterface $property)
     {             
-        $this->properties()->attach($property);
+        $this->properties()->save($property);
 
         return $this;        
     }

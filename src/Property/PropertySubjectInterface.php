@@ -1,4 +1,4 @@
-<?php namespace Jiro\Product;
+<?php namespace Jiro\Product\Property;
 
 use Jiro\Product\Property\PropertyInterface;
 

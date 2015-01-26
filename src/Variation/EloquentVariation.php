@@ -46,14 +46,6 @@ class EloquentVariation extends Model implements VariationInterface
     /**
      * {@inheritdoc}
      */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function isMaster()
     {
         return $this->master;
@@ -115,17 +107,17 @@ class EloquentVariation extends Model implements VariationInterface
     /**
      * {@inheritdoc}
      */
-    public function getOptions()
+    public function options()
     {
-        return $this->options;
+        return $this->hasMany('Jiro\Product\Option\EloquentOptionValue', 'variation_id');
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setOptions(Collection $options)
+    public function setOptions($options)
     {
-        $this->options = $options;
+        $this->options()->saveMany($options);
 
         return $this;
     }
@@ -133,11 +125,9 @@ class EloquentVariation extends Model implements VariationInterface
     /**
      * {@inheritdoc}
      */
-    public function addOption(OptionValueInterface $option)
+    public function addOption($option)
     {
-        if (!$this->hasOption($option)) {
-            $this->options->add($option);
-        }
+        $this->options()->save($option);
 
         return $this;
     }
@@ -145,11 +135,9 @@ class EloquentVariation extends Model implements VariationInterface
     /**
      * {@inheritdoc}
      */
-    public function removeOption(OptionValueInterface $option)
+    public function removeOption($option)
     {
-        if ($this->hasOption($option)) {
-            $this->options->removeElement($option);
-        }
+        $option->delete();
 
         return $this;
     }
@@ -157,7 +145,7 @@ class EloquentVariation extends Model implements VariationInterface
     /**
      * {@inheritdoc}
      */
-    public function hasOption(OptionValueInterface $option)
+    public function hasOption($option)
     {
         return $this->options->contains($option);
     }
@@ -165,7 +153,7 @@ class EloquentVariation extends Model implements VariationInterface
     /**
      * {@inheritdoc}
      */
-    public function setDefaults(VariantInterface $masterVariant)
+    public function setDefaults($masterVariant)
     {
         if (!$masterVariant->isMaster()) 
         {
@@ -176,6 +164,13 @@ class EloquentVariation extends Model implements VariationInterface
         {
             throw new \LogicException('Master variant cannot inherit from another master variant.');
         }
+
+        if (!$masterVariant instanceof VariantInterface) 
+        {
+            throw new \InvalidArgumentException('Product variants must implement "Sylius\Component\Product\Model\VariantInterface".');
+        }
+
+        $this->setAvailableOn($masterVariant->getAvailableOn());
 
         return $this;
     }

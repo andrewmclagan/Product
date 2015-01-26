@@ -1,5 +1,7 @@
 <?php namespace Jiro\Product;
 
+use Jiro\Product\Property\PropertySubjectInterface;
+
 /**
  * Base product interface.
  *
