@@ -62,7 +62,14 @@ class EloquentOptionValue extends Model implements OptionValueInterface
      */
     public function setOption(OptionInterface $option = null)
     {
-        $this->option()->associate($option);
+        if (null === $option)
+        {
+            $this->option()->dissociate();
+        }
+        else
+        {
+            $this->option()->associate($option);    
+        }
 
         return $this;
     }
@@ -72,7 +79,8 @@ class EloquentOptionValue extends Model implements OptionValueInterface
      */
     public function getName()
     {
-        if (null === $this->option) {
+        if (null === $this->option) 
+        {
             throw new \BadMethodCallException('The option have not been created yet so you cannot access proxy methods.');
         }
 
@@ -84,7 +92,8 @@ class EloquentOptionValue extends Model implements OptionValueInterface
      */
     public function getPresentation()
     {
-        if (null === $this->option) {
+        if (null === $this->option) 
+        {
             throw new \BadMethodCallException('The option have not been created yet so you cannot access proxy methods.');
         }
 
