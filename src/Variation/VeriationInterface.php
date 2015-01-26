@@ -51,7 +51,7 @@ interface VariationInterface
      *
      * @param VariationInterface|null $object
      */
-    public function setProduct(VariableInterface $product = null);
+    public function setProduct($product = null);
 
     /**
      * Returns all option values.

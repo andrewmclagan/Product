@@ -98,9 +98,16 @@ class EloquentVariation extends Model implements VariationInterface
     /**
      * {@inheritdoc}
      */
-    public function setProduct(VariableInterface $product = null)
+    public function setProduct($product = null)
     {
-        $this->product = $product;
+        if($product === null)
+        {
+            $this->product()->dissociate();
+        }
+        else 
+        {
+            $this->product()->associate($product);
+        }
 
         return $this;
     }
