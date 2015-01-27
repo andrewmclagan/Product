@@ -1,8 +1,6 @@
 <?php namespace Jiro\Product;
 
 use Illuminate\Support\ServiceProvider;
-use Jiro\Product\Property\EloquentProperty as Property;
-use Jiro\Product\EloquentProduct as Product;
 
 class ProductServiceProvider extends ServiceProvider {
 
@@ -20,36 +18,92 @@ class ProductServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+		$this->registerProperty();
+		$this->registerPropertyValue();
+		$this->registerOption();
+		$this->registerOptionValue();
+		$this->registerVariation();
+		$this->registerProduct();
+        $this->registerCommands();
+	}
+
+	/**
+	 * Register Property model binding
+	 *
+	 * @return void
+	 */
+	public function registerProperty()
+	{
         $this->app->bind('Jiro\Product\Property\PropertyInterface', function()
         {
             return new Property;
         });
+	}
+
+	/**
+	 * Register Property Value model binding
+	 *
+	 * @return void
+	 */
+	public function registerPropertyValue()
+	{
         $this->app->bind('Jiro\Product\Property\PropertyValueInterface', function()
         {
             return new PropertyValue;
         });  
+	}	
 
+	/**
+	 * Register Option model binding
+	 *
+	 * @return void
+	 */
+	public function registerOption()
+	{
         $this->app->bind('Jiro\Product\Option\OptionInterface', function()
         {
             return new Option;
-        }); 
+        });
+	}	
+
+	/**
+	 * Register Option Value model binding
+	 *
+	 * @return void
+	 */
+	public function registerOptionValue()
+	{
         $this->app->bind('Jiro\Product\Option\OptionValueInterface', function()
         {
             return new OptionValue;
-        });   
+        }); 
+	}	
 
+	/**
+	 * Register Variation model binding
+	 *
+	 * @return void
+	 */
+	public function registerVariation()
+	{
         $this->app->bind('Jiro\Product\Variation\VariationInterface', function()
         {
             return new Variation;
-        });                           
-        
+        });   
+	}	
+
+	/**
+	 * Register Product model binding
+	 *
+	 * @return void
+	 */
+	public function registerProduct()
+	{
         $this->app->bind('Jiro\Product\ProductInterface', function()
         {
             return new Product;
-        });   
-
-        $this->registerCommands();
-	}
+        }); 
+	}			
 
 	/**
 	 * Register the product related console commands.
