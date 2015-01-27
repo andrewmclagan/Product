@@ -73,7 +73,7 @@ class EloquentOption extends Model implements OptionInterface
      */
     public function values()
     {
-        return $this->hasMany('Jiro\Product\Option\EloquentOptionValue');
+        return $this->hasMany('Jiro\Product\Option\EloquentOptionValue', 'option_id');
     }
 
     /**
@@ -81,14 +81,7 @@ class EloquentOption extends Model implements OptionInterface
      */
     public function setValues($values)
     {
-        if($values === null)
-        {
-            $this->removeAllValues();
-        }
-        else 
-        {
-            $this->values()->saveMany($values);
-        }
+        $this->values()->saveMany($values);
         
         return $this;       
     }
@@ -96,7 +89,7 @@ class EloquentOption extends Model implements OptionInterface
     /**
      * {@inheritdoc}
      */
-    public function addValue($value)
+    public function addValue(OptionValueInterface $value)
     {    
         $this->values()->save($value);
 
@@ -106,7 +99,7 @@ class EloquentOption extends Model implements OptionInterface
     /**
      * {@inheritdoc}
      */
-    public function removeValue($value)
+    public function removeValue(OptionValueInterface $value)
     {
         $value->delete(); 
 
@@ -129,7 +122,7 @@ class EloquentOption extends Model implements OptionInterface
     /**
      * {@inheritdoc}
      */
-    public function hasValue($value)
+    public function hasValue(OptionValueInterface $value)
     {
         return $this->values->contains($value);
     }

@@ -2,8 +2,10 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Collection;
-use Jiro\Product\Property\PropertyInterface;
+use Jiro\Product\Property\PropertyValueInterface;
+use Jiro\Product\Variation\VariableInterface;
+use Jiro\Product\Variation\VariationInterface;
+use Jiro\Product\Option\OptionInterface;
 
 /**
  * Catalog product model.
@@ -11,7 +13,7 @@ use Jiro\Product\Property\PropertyInterface;
  * @author Andrew McLagan <andrewmclagan@gmail.com>
  */
 
-class EloquentProduct extends Model implements ProductInterface
+class EloquentProduct extends Model implements ProductInterface, VariableInterface
 {
     use SoftDeletes;
 
@@ -40,6 +42,7 @@ class EloquentProduct extends Model implements ProductInterface
     {
         parent::__construct($attributes);
 
+        // TODO: how about we just use laravel defaults in the migration file
         if (!array_key_exists('available_on', $attributes))
         {
             $this->setAvailableOn(new \Carbon\Carbon);
@@ -175,11 +178,6 @@ class EloquentProduct extends Model implements ProductInterface
      */
     public function setProperties($properties)
     {
-        if (!$properties instanceof Collection)
-        {
-            throw new \InvalidArgumentException('Properties must be an instance of Illuminate\Database\Eloquent\Collection');
-        }
-
         $this->properties()->saveMany($properties->all());
 
         return $this;        
@@ -198,12 +196,9 @@ class EloquentProduct extends Model implements ProductInterface
     /** 
      * {@inheritdoc}
      */
-    public function removeProperty(PropertyInterface $property)
+    public function removeProperty(PropertyValueInterface $property)
     {
-        if ($this->hasProperty($property)) 
-        { 
-            $property->products()->detach($this->getKey());
-        }
+        $property->delete();
 
         return $this;        
     }
@@ -211,9 +206,8 @@ class EloquentProduct extends Model implements ProductInterface
     /** 
      * {@inheritdoc}
      */
-    public function hasProperty(PropertyInterface $property)
+    public function hasProperty(PropertyValueInterface $property)
     {
-        
         return $this->properties->contains($property);        
     }
 
@@ -247,5 +241,131 @@ class EloquentProduct extends Model implements ProductInterface
         }
 
         return null;
+    }  
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMasterVariation()
+    {
+        foreach ($this->variations as $variation) 
+        {
+            if ($variation->isMaster()) 
+            {
+                return $variation;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setMasterVariation(VariationInterface $masterVariation)
+    {
+        $masterVariation->setMaster(true);
+
+        $this->variations()->save($masterVariation);
+
+        return $this;        
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function variations()
+    {
+        return $this->hasMany('Jiro\Product\Variation\EloquentVariation', 'product_id');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setVariations($variations)
+    {
+        $this->variations()->saveMany($variations);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addVariation(VariationInterface $variation)
+    {
+        $this->variations()->save($variation);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeVariation(VariationInterface $variation)
+    {
+        $variation->delete();
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasVariation(VariationInterface $variation)
+    {
+        return $this->variations->contains($variation);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function options()
+    {
+        return $this->belongsToMany(
+            'Jiro\Product\Option\EloquentOption',
+            'option_product',
+            'product_id',
+            'option_id'
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setOptions($options)
+    {
+        $this->options()->sync($options);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addOption(OptionInterface $option)
+    {
+        $this->options()->attach($option);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeOption(OptionInterface $option)
+    {
+        $option->delete();
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasOption(OptionInterface $option)
+    {
+        return $this->options->contains($option);
     }    
+
 }

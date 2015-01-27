@@ -1,7 +1,5 @@
 <?php namespace Jiro\Product\Property;
 
-use Jiro\Product\Property\PropertyInterface;
-
 /**
  * Gives the product "property" abilities
  *
@@ -20,32 +18,32 @@ interface PropertySubjectInterface
     /**
      * Sets all properties of the product.
      *
-     * @param Collection $properties Array of PropertyValueInterface
+     * @param Collection PropertyValueInterface
      */
     public function setProperties($properties);
 
     /**
      * Adds a property to the product.
      *
-     * @param PropertyInterface $property
+     * @param PropertyValueInterface $property
      */
-    public function addProperty(PropertyInterface $property);
+    public function addProperty(PropertyValueInterface $property);
 
     /**
      * Removes a property from the product.
      *
-     * @param PropertyInterface $property
+     * @param PropertyValueInterface $property
      */
-    public function removeProperty(PropertyInterface $property);
+    public function removeProperty(PropertyValueInterface $property);
 
     /**
      * Checks whether the product has a given property.
      *
-     * @param PropertyInterface $property
+     * @param PropertyValueInterface $property
      *
      * @return Boolean
      */
-    public function hasProperty(PropertyInterface $property);
+    public function hasProperty(PropertyValueInterface $property);
 
     /**
      * check if a property is present, by name

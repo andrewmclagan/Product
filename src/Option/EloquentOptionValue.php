@@ -62,14 +62,7 @@ class EloquentOptionValue extends Model implements OptionValueInterface
      */
     public function setOption(OptionInterface $option = null)
     {
-        if (null === $option)
-        {
-            $this->option()->dissociate();
-        }
-        else
-        {
-            $this->option()->associate($option);    
-        }
+        $this->option()->associate($option);    
 
         return $this;
     }

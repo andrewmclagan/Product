@@ -1,7 +1,9 @@
 <?php namespace Jiro\Product\Variation;
 
+use Jiro\Product\Option\OptionInterface;
+
 /**
- * Should be implemented by models that support variants and options.
+ * Should be implemented by models that support variations and options.
  *
  * @author Andrew McLagan <andrewmclagan@gmail.com>
  */
@@ -9,86 +11,70 @@
 interface VariableInterface
 {
     /**
-     * Returns master variant.
+     * Returns master variation.
      *
-     * @return VariantInterface
+     * @return VariationInterface
      */
-    public function getMasterVariant();
+    public function getMasterVariation();
 
     /**
-     * Sets master variant.
+     * Sets master variation.
      *
-     * @param VariantInterface $variant
+     * @param VariationInterface $variation
      */
-    public function setMasterVariant(VariantInterface $variant);
+    public function setMasterVariation(VariationInterface $variation);
 
     /**
-     * Has any variants?
-     * This method is not for checking if object has any variations.
-     * It should determine if any variants (other than internal master) exist.
+     * Returns all object variations.
+     * This collection should exclude the master variation.
+     *
+     * @return Collection|VariationInterface[]
+     */
+    public function variations();
+
+    /**
+     * Sets all object variations.
+     *
+     * @param Collection $variations
+     */
+    public function setVariations($variations);
+
+    /**
+     * Adds variation.
+     *
+     * @param VariationInterface $variation
+     */
+    public function addVariation(VariationInterface $variation);
+
+    /**
+     * Removes variation from object.
+     *
+     * @param VariationInterface $variation
+     */
+    public function removeVariation(VariationInterface $variation);
+
+    /**
+     * Checks whether object has given variation.
+     *
+     * @param VariationInterface $variation
      *
      * @return Boolean
      */
-    public function hasVariants();
-
-    /**
-     * Returns all object variants.
-     * This collection should exclude the master variant.
-     *
-     * @return Collection|VariantInterface[]
-     */
-    public function getVariants();
-
-    /**
-     * Sets all object variants.
-     *
-     * @param Collection $variants
-     */
-    public function setVariants(Collection $variants);
-
-    /**
-     * Adds variant.
-     *
-     * @param VariantInterface $variant
-     */
-    public function addVariant(VariantInterface $variant);
-
-    /**
-     * Removes variant from object.
-     *
-     * @param VariantInterface $variant
-     */
-    public function removeVariant(VariantInterface $variant);
-
-    /**
-     * Checks whether object has given variant.
-     *
-     * @param VariantInterface $variant
-     *
-     * @return Boolean
-     */
-    public function hasVariant(VariantInterface $variant);
-
-    /**
-     * This should return true only when object has options.
-     *
-     * @return Boolean
-     */
-    public function hasOptions();
+    public function hasVariation(VariationInterface $variation);
 
     /**
      * Returns all object options.
      *
      * @return Collection|OptionInterface[]
      */
-    public function getOptions();
+    public function options();
 
     /**
      * Sets all object options.
      *
      * @param Collection $options
      */
-    public function setOptions(Collection $options);
+    public function setOptions($options);
 
     /**
      * Adds option.

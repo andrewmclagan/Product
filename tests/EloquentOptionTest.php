@@ -61,28 +61,9 @@ class EloquentOptionTest extends DbTestCase {
 		$option->addValue($value);
 		$this->assertEquals($option->hasValue($value), true);
 
-		$option->removeValue($value);
-		$option = $option->fresh(); // refresh our models collection
+		$option = $option->removeValue($value)->fresh(); // rehydrate model
 		$this->assertEquals($option->hasValue($value), false);
 	}	
-
-	/** @test */
-	public function it_can_set_values_to_null()
-	{	
-		$option = Factory::create('Option');
-		$optionValues = new Collection([
-			Factory::create('OptionValue'),
-			Factory::create('OptionValue'),
-			Factory::create('OptionValue'),
-		]);
-
-		$option->setValues($optionValues->all());
-		$this->assertEquals($option->values->keys(), $optionValues->keys());
-
-		$option->setValues(null);
-		$option = $option->fresh(); // refresh our models collection
-		$this->assertEquals($option->values->count(), 0);
-	}
 
 	/** @test */
 	public function it_can_remove_all_values()
@@ -97,8 +78,7 @@ class EloquentOptionTest extends DbTestCase {
 		$option->setValues($optionValues->all());
 		$this->assertEquals($option->values->keys(), $optionValues->keys());
 
-		$option->removeAllValues();
-		$option = $option->fresh(); // refresh our models collection
+		$option = $option->removeAllValues()->fresh(); // rehydrate model
 		$this->assertEquals($option->values->count(), 0);
 	}	
 

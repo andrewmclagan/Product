@@ -103,10 +103,45 @@ class EloquentVariationTest extends DbTestCase {
     	$this->assertEquals($variation->hasOption($option), false);    	    	
     }
 
-    /** @test */
-    public function it_throws_exception_if_trying_to_inherit_values_and_being_a_master_variant()
+    /** 
+     * @test 
+     * @expectedException InvalidArgumentException
+     */
+    public function it_throws_exception_if_trying_to_inherit_values_from_a_non_master_variation()
     {
-    	// TODO: Write exception tests for this behaviour, very important.
+    	$variation = Factory::create('Variation');
+        $masterVariation = Factory::create('Variation');
+        
+        $masterVariation->setMaster(false);
+
+        $variation->setDefaults($masterVariation);
+    }
+
+    /** 
+     * @test 
+     * @expectedException LogicException
+     */
+    public function it_throws_exception_if_trying_to_inherit_values_and_being_a_master_variation()
+    {
+        $variation = Factory::create('Variation');
+        $masterVariation = Factory::create('Variation');
+        
+        $masterVariation->setMaster(true);
+        $variation->setMaster(true);
+
+        $variation->setDefaults($masterVariation);
+    }  
+
+    /** 
+     * @test 
+     * @expectedException InvalidArgumentException
+     */
+    public function it_throws_exception_if_variation_is_incorrect_type()
+    {
+        $variation = Factory::create('Variation');
+        $product = Factory::create('Product');
+
+        $variation->setDefaults($product);
     }
 
 	/** @test */

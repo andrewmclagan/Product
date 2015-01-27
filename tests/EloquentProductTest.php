@@ -1,6 +1,5 @@
 <?php namespace Jiro\Product\Tests;
 
-use Jiro\Product\Property\EloquentProperty as PropertyValueInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Laracasts\TestDummy\Factory;
 use Carbon\Carbon;
@@ -87,12 +86,6 @@ class EloquentProductTest extends DbTestCase {
 	}	
 
 	/** @test */
-	public function it_throws_exception_for_invalid_property_collection()
-	{
-		// TODO: write exception test for this behaviour.
-	}	
-
-	/** @test */
 	public function it_can_recieve_multiple_property_values()
 	{
 		$product = Factory::create('Product');
@@ -108,7 +101,7 @@ class EloquentProductTest extends DbTestCase {
     }
 
 	/** @test */
-	public function it_can_recieve_single_property_values()
+	public function it_can_recieve_single_property_value()
 	{
         $product = Factory::create('Product');
         $property = Factory::create('PropertyValue');
@@ -116,80 +109,157 @@ class EloquentProductTest extends DbTestCase {
         $product->addProperty($property);
 
         $this->assertEquals($product->hasProperty($property), true);
-
-        // Cuurently we dont know how to do IOC resolving in PHPUnit
-        // Normally "Jiro/Product/PropertyValueInterface" would 
-        // resolve as its implimentation "Jiro\Product\Property\EloquentProperty"
 	}    
 
-        // // build single
-        // $product = Factory::create('Product');
-        // $property = Factory::create('SizeProperty');
-        // $product->addProperty($property);
+	/** @test */
+	public function it_can_check_if_it_has_a_property()
+	{
+        $product = Factory::create('Product');
+        $property1 = Factory::create('PropertyValue');
+        $property2 = Factory::create('PropertyValue');
+        $product->addProperty($property1);
 
-        // // assert single
-        // $this->assertEquals($property->getKey(), $product->properties[0]->getKey());		
-	// // }
+        $this->assertEquals(true, $product->hasProperty($property1));
+        $this->assertEquals(false, $product->hasProperty($property2));
+	}	
 
-	// // /** @test */
-	// // public function it_can_check_if_it_has_a_property()
-	// // {
- // //        $product = Factory::create('Product');
- // //        $property1 = Factory::create('ColourProperty');
- // //        $property2 = Factory::create('SizeProperty');
- // //        $product->addProperty($property1);
+	/** @test */
+	public function it_can_remove_a_property()
+	{
+        $product = Factory::create('Product');
+        $property = Factory::create('PropertyValue');
 
- // //        $this->assertEquals(true, $product->hasProperty($property1));
- // //        $this->assertEquals(false, $product->hasProperty($property2));
-	// // }	
+        $product->addProperty($property);
+        $product = $product->removeProperty($property)->fresh(); // rehydrate model
 
-	// // /** @test */
-	// // public function it_can_check_if_it_has_a_property_by_name()
-	// // {
- // //        $product = Factory::create('Product');
- // //        $property1 = Factory::create('ColourProperty');
- // //        $property2 = Factory::create('SizeProperty');
- // //        $product->addProperty($property1);
+        $this->assertEquals([], $product->properties->toArray());
+	}		
 
- // //        $this->assertEquals(true, $product->hasPropertyByName('Colour'));
- // //        $this->assertEquals(false, $product->hasPropertyByName('Size'));
-	// // }		
+	/** @test */
+	public function it_should_not_have_master_variant_by_default()
+	{
+		$product = Factory::create('Product');
 
-	// // /** @test */
-	// // public function it_can_remove_a_property()
-	// // {
- // //        $product = Factory::create('Product');
- // //        $property = Factory::create('ColourProperty');
+		$this->assertEquals(false, $product->getMasterVariation());
+	}
 
- // //        $product->addProperty($property);
- // //        $product->removeProperty($property);
+	/** @test **/
+	public function its_master_variant_should_be_mutable_and_define_given_variant_as_master()
+	{
+        $product = Factory::create('Product');
+        $variation = Factory::create('Variation');
 
- // //        $product = Product::find(1);
- // //        $this->assertEquals([], $product->properties->toArray());
-	// // }	
+		$product->setMasterVariation($variation);
 
-	// // /** @test */
-	// // public function it_can_return_a_property_by_name()
-	// // {
- // //        $product = Factory::create('Product');
- // //        $property = Factory::create('ColourProperty');
- // //        $product->addProperty($property);
+		$this->assertEquals($product->getMasterVariation()->getKey(), $variation->getKey());
+		$this->assertEquals($variation->isMaster(), true);
+	}
 
- // //        $product = Product::find(1); // Not Sure why we have to re-init from DB?
- // //        $this->assertEquals($property->getKey(), $product->getPropertyByName('Colour')->getKey());
-	// // }
+	/** @test **/
+	public function its_hasVariation_should_return_false_if_no_variation_defined()
+	{
+		$product = Factory::create('Product');
+		$variation = Factory::create('Variation');
 
-	// /** @test */
-	// public function it_has_fluent_interface() 
-	// {
-	// 	$date = new Carbon();
-	// 	$product = new Product;
+		$this->assertEquals($product->hasVariation($variation), false);
+	}
 
-	// 	$this->assertEquals($product, $product->setName('Takoyaki'));
-	// 	$this->assertEquals($product, $product->setSlug('Super-Product'));
-	// 	$this->assertEquals($product, $product->setDescription('Super Product description'));
-	// 	$this->assertEquals($product, $product->setAvailableOn($date));
-	// 	$this->assertEquals($product, $product->setMetaDescription('SEO bla bla'));
-	// 	$this->assertEquals($product, $product->setMetaKeywords('foo, bar, baz'));		
-	// }					
+	/** @test */
+	public function it_can_recieve_single_variation()
+	{
+		$product = Factory::create('Product');
+		$variation = Factory::create('Variation');
+
+		$product->addVariation($variation);
+
+		$this->assertEquals($product->hasVariation($variation), true);
+	}
+
+	/** @test */
+	public function it_can_recieve_multiple_variations()
+	{
+		$product = Factory::create('Product');
+		$variations = new Collection([
+			Factory::create('Variation'),
+			Factory::create('Variation'),
+			Factory::create('Variation'),
+		]);
+
+		$product->setVariations($variations->all());
+
+		$this->assertEquals($product->variations->modelKeys(), $variations->modelKeys());
+	}	
+
+	/** @test */
+	public function it_can_remove_a_variation()
+	{
+		$product = Factory::create('Product');
+		$variation = Factory::create('Variation');
+
+		$product->addVariation($variation);
+		$this->assertEquals($product->hasVariation($variation), true);
+
+		$product = $product->removeVariation($variation)->fresh(); // rehydrate model
+		$this->assertEquals($product->hasVariation($variation), false);		
+	}
+
+	/** @test */
+	public function it_can_recieve_a_single_option()
+	{
+		$product = Factory::create('Product');
+		$option = Factory::create('Option');
+
+		$product->addOption($option);
+
+		$this->assertEquals($product->hasOption($option), true);
+	}
+
+	/** @test */
+	public function it_can_recieve_multiple_options()
+	{	
+		$product = Factory::create('Product');
+		$options = new Collection([
+			Factory::create('Option'),
+			Factory::create('Option'),
+			Factory::create('Option'),
+		]);
+
+		$product->setOptions($options);
+
+		$this->assertEquals($product->options->modelKeys(), $options->modelKeys());		
+	}
+
+	/** @test */
+	public function its_hasOption_should_return_false_if_no_option_defined()
+	{
+		$product = Factory::create('Product');
+		$option = Factory::create('Option');
+
+		$this->assertEquals($product->hasOption($option), false);
+	}
+
+	/** @test */
+	public function its_hasOption_should_return_true_if_it_has_option()
+	{
+		$product = Factory::create('Product');
+		$option = Factory::create('Option');
+
+		$product->addOption($option);
+
+		$this->assertEquals($product->hasOption($option), true);
+	}	
+
+	/** @test */
+	public function it_should_remove_option_properly()
+	{
+		$product = Factory::create('Product');
+		$option = Factory::create('Option');
+
+		$product->addOption($option);
+		$this->assertEquals($product->hasOption($option), true);
+
+		$product = $product->removeOption($option)->fresh(); // rehydrate model
+		$this->assertEquals($product->hasOption($option), false);
+
+	}				
 }

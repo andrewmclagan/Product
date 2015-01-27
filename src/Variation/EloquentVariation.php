@@ -155,6 +155,11 @@ class EloquentVariation extends Model implements VariationInterface
      */
     public function setDefaults($masterVariant)
     {
+        if (!$masterVariant instanceof VariationInterface) 
+        {
+            throw new \InvalidArgumentException('Product variants must implement "Jiro\Product\Variation\VariationInterface".');
+        }
+                
         if (!$masterVariant->isMaster()) 
         {
             throw new \InvalidArgumentException('Cannot inherit values from non master variant.');
@@ -163,11 +168,6 @@ class EloquentVariation extends Model implements VariationInterface
         if ($this->isMaster()) 
         {
             throw new \LogicException('Master variant cannot inherit from another master variant.');
-        }
-
-        if (!$masterVariant instanceof VariantInterface) 
-        {
-            throw new \InvalidArgumentException('Product variants must implement "Sylius\Component\Product\Model\VariantInterface".');
         }
 
         $this->setAvailableOn($masterVariant->getAvailableOn());

@@ -25,19 +25,6 @@ class EloquentOptionValueTest extends DbTestCase {
 	}	
 
 	/** @test */
-	public function its_option_is_nullable()
-	{
-		$option = Factory::create('Option');
-		$value = Factory::create('OptionValue');
-		$value->setOption($option);
-
-		$this->assertEquals($option->getKey(), $value->option->getKey());		
-
-		$value->setOption(null);
-		$this->assertEquals($value->option, null);
-	}	
-
-	/** @test */
 	public function it_can_access_its_options_name()
 	{
 		$option = Factory::create('Option');
@@ -59,18 +46,35 @@ class EloquentOptionValueTest extends DbTestCase {
 		$this->assertEquals($value->getPresentation(), 'Option Name');
 	}
 
-	/** @test */
-	public function its_proxy_methods_return_exceptions_when_option_not_set()
+	/** 
+	 * @test 
+	 * @expectedException BadMethodCallException
+	 */
+	public function its_proxy_getName_method_returns_exception_when_option_not_set()
 	{
-		// TODO: write test on exceptions. If that is possible with PHPunit.
+		$value = Factory::create('OptionValue');
+
+		$value->getName();
+	}	
+
+	/** 
+	 * @test 
+	 * @expectedException BadMethodCallException
+	 */
+	public function its_proxy_getPresentation_method_returns_exception_when_option_not_set()
+	{
+		$value = Factory::create('OptionValue');
+
+		$value->getPresentation();
 	}			
 
 	/** @test */
 	public function it_has_fluent_interface() 
 	{
 		$value = Factory::create('OptionValue');
+		$option = Factory::create('Option');
 
 		$this->assertEquals($value, $value->setValue('Takoyaki'));
-		$this->assertEquals($value, $value->setOption(null));
+		$this->assertEquals($value, $value->setOption($option));
 	}					
 }

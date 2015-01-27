@@ -24,6 +24,24 @@ class ProductServiceProvider extends ServiceProvider {
         {
             return new Property;
         });
+        $this->app->bind('Jiro\Product\Property\PropertyValueInterface', function()
+        {
+            return new PropertyValue;
+        });  
+
+        $this->app->bind('Jiro\Product\Option\OptionInterface', function()
+        {
+            return new Option;
+        }); 
+        $this->app->bind('Jiro\Product\Option\OptionValueInterface', function()
+        {
+            return new OptionValue;
+        });   
+
+        $this->app->bind('Jiro\Product\Variation\VariationInterface', function()
+        {
+            return new Variation;
+        });                           
         
         $this->app->bind('Jiro\Product\ProductInterface', function()
         {
@@ -57,6 +75,10 @@ class ProductServiceProvider extends ServiceProvider {
 	{
 		return [
 			'Jiro\Product\Property\PropertyInterface',
+			'Jiro\Product\Property\PropertyValueInterface',
+			'Jiro\Product\Option\OptionInterface',
+			'Jiro\Product\Option\OptionValueInterface',			
+			'Jiro\Product\Variation\VariationInterface',
 			'Jiro\Product\ProductInterface',
 		];
 	}

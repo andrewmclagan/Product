@@ -9,6 +9,10 @@ class IlluminateMigrationCreatorSpec extends ObjectBehavior
 {
     function let(Filesystem $fileSystem, ClassFinder $classFinder)
     {
+        // TODO: we need to get more familiar with PHPSpec prophet
+        // and mocking in general. It may be the case that we need some type
+        // of integration testing to test filesystem writes and expectations
+        
         $path = '/home/vagrant/development/Product/src/Migrations/stubs';
         $fileSystem->files($path)->willReturn([
             '/home/vagrant/development/Product/src/Migrations/stubs/product_property.stub',

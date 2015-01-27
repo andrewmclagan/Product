@@ -68,7 +68,7 @@ interface PropertyValueInterface
     public function getPresentation();
 
     /**
-     * TProxy method to access the type of the property.
+     * Proxy method to access the type of the property.
      *
      * @return string
      */
