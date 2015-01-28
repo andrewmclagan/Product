@@ -3,8 +3,26 @@
 use Illuminate\Foundation\Testing\TestCase;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Filesystem\ClassFinder;
+use Jiro\Support\Migration\MigrationCreatorInterface;
 
 abstract class DbTestCase extends TestCase {
+
+	/**
+	 * The migration creator instance 
+	 *
+	 * @param Jiro\Support\Migration\MigrationCreatorInterface $migrator
+	 */
+	protected $migrator;
+
+	/**
+	 * Constructor
+	 */
+	public function __construct(MigrationCreatorInterface $migrator)
+	{
+		parent::__construct();
+
+		$this->migrator = $migrator;
+	}
 
 	/**
 	 * Boots the application.
@@ -40,25 +58,10 @@ abstract class DbTestCase extends TestCase {
 	/**
 	 * run package database migrations
 	 *
-	 * @param string $operation
 	 * @return void
 	 */
-	public function migrate($operation = 'up')
+	public function migrate()
 	{ 
-		// TODO: we should move all this into a migrator class
-		// as its not the responsibility of the test case
-		// to migrate the database, also we can reuse this in the 
-		// install command.
-		
-		$fileSystem = new Filesystem;
-		$classFinder = new ClassFinder;
-
-		foreach($fileSystem->files(__DIR__ . "/../src/Migrations") as $file)
-		{
-			$fileSystem->requireOnce($file);
-			$migrationClass = $classFinder->findClass($file);
-			
-			(new $migrationClass)->{$operation}();
-		}
+		$this->migrator->migrate();
 	}			
 }
