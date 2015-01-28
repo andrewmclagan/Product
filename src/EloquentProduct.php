@@ -368,4 +368,11 @@ class EloquentProduct extends Model implements ProductInterface, VariableInterfa
         return $this->options->contains($option);
     }    
 
+    /**
+     * {@inheritdoc}
+     */
+    public function hasOptions()
+    {
+        return (boolean) $this->options->count();
+    }
 }

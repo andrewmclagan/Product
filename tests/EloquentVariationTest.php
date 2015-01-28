@@ -37,6 +37,17 @@ class EloquentVariationTest extends DbTestCase {
     }	
 
     /** @test */
+    public function it_should_have_ability_to_check_if_options_present()
+    {    
+        $product = Factory::create('Product');   
+        $option = Factory::create('Option');   
+
+        $this->assertEquals($product->hasOptions(), false);
+        $product->addOption($option);
+        $this->assertEquals($product->hasOptions(), true);
+    }
+
+    /** @test */
     public function it_should_not_be_master_variant_by_default()
     {
     	$variation = Factory::create('Variation');

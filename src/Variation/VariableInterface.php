@@ -98,4 +98,11 @@ interface VariableInterface
      * @return Boolean
      */
     public function hasOption(OptionInterface $option);
+
+    /**
+     * Checks for presence of product options
+     *
+     * @return Boolean
+     */
+    public function hasOptions();    
 }
