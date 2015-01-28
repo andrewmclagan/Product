@@ -1,6 +1,18 @@
 <?php namespace Jiro\Product;
 
 use Illuminate\Support\ServiceProvider;
+use Jiro\Product\Property\PropertyInterface;
+use Jiro\Product\Property\EloquentProperty;
+use Jiro\Product\Property\PropertyValueInterface;
+use Jiro\Product\Property\EloquentPropertyValue;
+use Jiro\Product\Option\OptionInterface;
+use Jiro\Product\Option\EloquentOption;
+use Jiro\Product\Option\OptionValueInterface;
+use Jiro\Product\Option\EloquentOptionValue;
+use Jiro\Product\Variatiom\VariationInterface;
+use Jiro\Product\Variatiom\EloquentVariation;
+use Jiro\Product\Variatiom\VariationGeneratorInterface;
+use Jiro\Product\Variatiom\VariationGenerator;
 
 class ProductServiceProvider extends ServiceProvider {
 
@@ -18,92 +30,19 @@ class ProductServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->registerProperty();
-		$this->registerPropertyValue();
-		$this->registerOption();
-		$this->registerOptionValue();
-		$this->registerVariation();
-		$this->registerProduct();
+		$this->app->bind(ProductInterface::class, EloquentProduct::class);
+
+		$this->app->bind(PropertyInterface::class, EloquentProperty::class);	
+		$this->app->bind(PropertyValueInterface::class, EloquentPropertyValue::class);
+
+		$this->app->bind(OptionInterface::class, EloquentOption::class);
+		$this->app->bind(OptionValueInterface::class, EloquentOptionValue::class);
+
+		$this->app->bind(VariationInterface::class, EloquentVariation::class);
+		$this->app->bind(VariationGeneratorInterface::class, VariationGenerator::class);		
+
         $this->registerCommands();
-	}
-
-	/**
-	 * Register Property model binding
-	 *
-	 * @return void
-	 */
-	public function registerProperty()
-	{
-        $this->app->bind('Jiro\Product\Property\PropertyInterface', function()
-        {
-            return new Property;
-        });
-	}
-
-	/**
-	 * Register Property Value model binding
-	 *
-	 * @return void
-	 */
-	public function registerPropertyValue()
-	{
-        $this->app->bind('Jiro\Product\Property\PropertyValueInterface', function()
-        {
-            return new PropertyValue;
-        });  
-	}	
-
-	/**
-	 * Register Option model binding
-	 *
-	 * @return void
-	 */
-	public function registerOption()
-	{
-        $this->app->bind('Jiro\Product\Option\OptionInterface', function()
-        {
-            return new Option;
-        });
-	}	
-
-	/**
-	 * Register Option Value model binding
-	 *
-	 * @return void
-	 */
-	public function registerOptionValue()
-	{
-        $this->app->bind('Jiro\Product\Option\OptionValueInterface', function()
-        {
-            return new OptionValue;
-        }); 
-	}	
-
-	/**
-	 * Register Variation model binding
-	 *
-	 * @return void
-	 */
-	public function registerVariation()
-	{
-        $this->app->bind('Jiro\Product\Variation\VariationInterface', function()
-        {
-            return new Variation;
-        });   
-	}	
-
-	/**
-	 * Register Product model binding
-	 *
-	 * @return void
-	 */
-	public function registerProduct()
-	{
-        $this->app->bind('Jiro\Product\ProductInterface', function()
-        {
-            return new Product;
-        }); 
-	}			
+	}		
 
 	/**
 	 * Register the product related console commands.
@@ -133,6 +72,7 @@ class ProductServiceProvider extends ServiceProvider {
 			'Jiro\Product\Option\OptionInterface',
 			'Jiro\Product\Option\OptionValueInterface',			
 			'Jiro\Product\Variation\VariationInterface',
+			'Jiro\Product\Variation\VariationGeneratorInterface',
 			'Jiro\Product\ProductInterface',
 		];
 	}

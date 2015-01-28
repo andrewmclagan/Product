@@ -4,6 +4,9 @@ use Illuminate\Console\Command;
 use Jiro\Support\Migration\IlluminateMigrationCreator;
 
 // TODO: Write a full PHPSpec specification
+// TODO: Write a full PHPSpec specification
+// TODO: Write a full PHPSpec specification
+// TODO: Write a full PHPSpec specification
 
 class InstallCommand extends Command {
 

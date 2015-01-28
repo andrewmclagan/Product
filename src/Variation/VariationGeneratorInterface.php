@@ -3,7 +3,7 @@
 use Jiro\Product\ProductInterface;
 
 /**
- * Interface for variant generating service.
+ * Interface for Variation generating service.
  *
  * It is used to create all possible (non-existing) variations
  * of given object based on its options.
@@ -11,10 +11,10 @@ use Jiro\Product\ProductInterface;
  * @author Andrew McLagan <andrewmclagan@gmail.com>
  */
 
-interface VariantGeneratorInterface
+interface VariationGeneratorInterface
 {
     /**
-     * Generate all possible variants if they don't exist currently.
+     * Generate all possible Variations if they don't exist currently.
      *
      * @param ProductInterface $product
      */

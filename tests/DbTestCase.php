@@ -17,11 +17,11 @@ abstract class DbTestCase extends TestCase {
 	/**
 	 * Constructor
 	 */
-	public function __construct(MigrationCreatorInterface $migrator)
+	public function __construct(/*MigrationCreatorInterface $migrator*/)
 	{
 		parent::__construct();
 
-		$this->migrator = $migrator;
+		//$this->migrator = $migrator;
 	}
 
 	/**
@@ -62,6 +62,6 @@ abstract class DbTestCase extends TestCase {
 	 */
 	public function migrate()
 	{ 
-		$this->migrator->migrate();
+		(new MigrationCreatorInterface)->migrate();
 	}			
 }

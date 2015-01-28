@@ -1,25 +1,21 @@
-<?php namespace Jiro\Product\Variation;
-
-use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Sylius\Component\Variation\Model\VariableInterface;
-use Sylius\Component\Variation\Model\VariantInterface;
+<?php namespace Jiro\Product\Variation;Variation
 
 /**
- * Abstract variant generator service implementation.
+ * Abstract variation generator service implementation.
  *
  * It is used to create all possible combinations of product options
- * and create Variant models from them.
+ * and create Variation models from them.
  *
  * Example:
  *
  * If object has two options with 3 possible values each,
- * this service will create 9 Variant's and assign them to the
+ * this service will create 9 Variation's and assign them to the
  * object. It ignores existing and invalid variants.
  *
  * @author Andrew McLagan <andrewmclagan@gmail.com>
  */
 
-class VariantGenerator implements VariantGeneratorInterface
+class VariationGenerator implements VariationGeneratorInterface
 {
     /**
      * Variant manager.
@@ -43,15 +39,18 @@ class VariantGenerator implements VariantGeneratorInterface
      */
     public function generate(ProductInterface $product)
     {
-        if (!$product->hasOptions()) {
+        if (!$product->hasOptions()) 
+        {
             throw new \InvalidArgumentException('Cannot generate variants for an object without options.');
         }
 
-        $optionSet = array();
-        $optionMap = array();
+        $optionSet = [];
+        $optionMap = [];
 
-        foreach ($product->getOptions() as $k => $option) {
-            foreach ($option->getValues() as $value) {
+        foreach ($product->getOptions() as $k => $option) 
+        {
+            foreach ($option->getValues() as $value) 
+            {
                 $optionSet[$k][] = $value->getId();
                 $optionMap[$value->getId()] = $value;
             }
@@ -59,16 +58,21 @@ class VariantGenerator implements VariantGeneratorInterface
 
         $permutations = $this->getPermutations($optionSet);
 
-        foreach ($permutations as $permutation) {
+        foreach ($permutations as $permutation) 
+        {
             $variant = $this->variantRepository->createNew();
             $variant->setObject($product);
             $variant->setDefaults($product->getMasterVariant());
 
-            if (is_array($permutation)) {
-                foreach ($permutation as $id) {
+            if (is_array($permutation)) 
+            {
+                foreach ($permutation as $id) 
+                {
                     $variant->addOption($optionMap[$id]);
                 }
-            } else {
+            } 
+            else 
+            {
                 $variant->addOption($optionMap[$permutation]);
             }
 
@@ -103,9 +107,12 @@ class VariantGenerator implements VariantGeneratorInterface
     {
         $countArrays = count($array);
 
-        if (1 === $countArrays) {
+        if (1 === $countArrays) 
+        {
             return reset($array);
-        } elseif (0 === $countArrays) {
+        } 
+        elseif (0 === $countArrays) 
+        {
             throw new \InvalidArgumentException('At least one array is required.');
         }
 
@@ -118,12 +125,18 @@ class VariantGenerator implements VariantGeneratorInterface
 
         $result = array();
 
-        foreach ($a as $valueA) {
-            if ($valueA) {
-                foreach ($b as $valueB) {
-                    if ($recursing) {
+        foreach ($a as $valueA) 
+        {
+            if ($valueA) 
+            {
+                foreach ($b as $valueB) 
+                {
+                    if ($recursing) 
+                    {
                         $result[] = array_merge(array($valueA), (array) $valueB);
-                    } else {
+                    } 
+                    else 
+                    {
                         $result[] = array($k => $valueA) + array_combine($keys, (array) $valueB);
                     }
                 }
