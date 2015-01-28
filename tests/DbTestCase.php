@@ -3,21 +3,21 @@
 use Illuminate\Foundation\Testing\TestCase;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Filesystem\ClassFinder;
-use Jiro\Support\Migration\MigrationCreatorInterface;
+use Jiro\Support\Migration\MigratorInterface;
 
 abstract class DbTestCase extends TestCase {
 
 	/**
 	 * The migration creator instance 
 	 *
-	 * @param Jiro\Support\Migration\MigrationCreatorInterface $migrator
+	 * @param Jiro\Support\Migration\MigratorInterface $migrator
 	 */
 	protected $migrator;
 
 	/**
 	 * Constructor
 	 */
-	public function __construct(/*MigrationCreatorInterface $migrator*/)
+	public function __construct(/*MigratorInterface $migrator*/)
 	{
 		parent::__construct();
 
@@ -62,6 +62,6 @@ abstract class DbTestCase extends TestCase {
 	 */
 	public function migrate()
 	{ 
-		(new MigrationCreatorInterface)->migrate();
+		(new MigratorInterface)->migrate();
 	}			
 }

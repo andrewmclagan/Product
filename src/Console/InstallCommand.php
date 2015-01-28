@@ -1,7 +1,7 @@
 <?php namespace Jiro\Product\Console;
 
 use Illuminate\Console\Command;
-use Jiro\Support\Migration\IlluminateMigrationCreator;
+use Jiro\Support\Migration\MigrationCreatorInterface;
 
 // TODO: Write a full PHPSpec specification
 // TODO: Write a full PHPSpec specification
@@ -34,7 +34,7 @@ class InstallCommand extends Command {
 	/**
 	 * constructor
 	 *
-	 * @param  \Jiro\Support\Migration\MigrationCreatorInterface $fileSystem
+	 * @param  Jiro\Support\Migration\MigrationCreatorInterface $fileSystem
 	 * @return void
 	 */
 	public function __construct(MigrationCreatorInterface $migrator)
