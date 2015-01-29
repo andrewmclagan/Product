@@ -1,4 +1,4 @@
-<?php namespace Jiro\Product\Variation;Variation
+<?php namespace Jiro\Product\Variation;
 
 /**
  * Abstract variation generator service implementation.
