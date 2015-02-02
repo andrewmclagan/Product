@@ -4,7 +4,7 @@ use Jiro\Product\EloquentProduct as Product;
 use Jiro\Product\Property\EloquentProperty as Property;
 use Laracasts\TestDummy\Factory;
 
-class EloquentPropertyValueTest extends DbTestCase {
+class EloquentPropertyValueTest extends TestCase {
 
 	/** @test */
 	public function its_property_and_product_are_null_by_default()

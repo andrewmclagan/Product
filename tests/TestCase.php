@@ -13,7 +13,7 @@ abstract class TestCase extends DbTestCase
     /** 
      * {@inheritdoc}
      */
-	abstract public function getServiceProviders()
+	public function getServiceProviders()
 	{
 		return ['Jiro/Product/ProductServiceProvider'];
 	}
@@ -21,7 +21,7 @@ abstract class TestCase extends DbTestCase
     /** 
      * {@inheritdoc}
      */
-	abstract public function getMigrationsDirectory()
+	public function getMigrationsDirectory()
 	{
 		return __DIR__ . '/../Migrations';
 	}

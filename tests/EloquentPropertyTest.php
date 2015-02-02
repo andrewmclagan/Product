@@ -5,7 +5,7 @@ use Jiro\Product\Property\EloquentProperty as Property;
 use Jiro\Product\Property\PropertyTypes;
 use Laracasts\TestDummy\Factory;
 
-class EloquentPropertyTest extends DbTestCase {
+class EloquentPropertyTest extends TestCase {
 
 	/** @test */
 	public function its_name_is_mutable()

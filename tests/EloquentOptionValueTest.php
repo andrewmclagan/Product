@@ -3,7 +3,7 @@
 use Laracasts\TestDummy\Factory;
 use Illuminate\Database\Eloquent\Collection;
 
-class EloquentOptionValueTest extends DbTestCase {
+class EloquentOptionValueTest extends TestCase {
 
 	/** @test */
 	public function its_value_is_mutable()

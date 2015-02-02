@@ -3,7 +3,7 @@
 use Illuminate\Database\Eloquent\Collection;
 use Laracasts\TestDummy\Factory;
 
-class EloquentVariationTest extends DbTestCase {
+class EloquentVariationTest extends TestCase {
 
 	/** @test */
 	public function it_should_not_belong_to_a_product_by_default()
