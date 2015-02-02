@@ -1,12 +1,7 @@
 <?php namespace Jiro\Product\Console;
 
 use Illuminate\Console\Command;
-use Jiro\Support\Migration\MigrationCreatorInterface;
-
-// TODO: Write a full PHPSpec specification
-// TODO: Write a full PHPSpec specification
-// TODO: Write a full PHPSpec specification
-// TODO: Write a full PHPSpec specification
+use Jiro\Support\Migration\MigrationCreator;
 
 class InstallCommand extends Command {
 
@@ -25,35 +20,30 @@ class InstallCommand extends Command {
 	protected $description = 'Install the product package';	
 
 	/**
-	 * The migration generator.
-	 *
-	 * @var Jiro\Support\Migration\MigrationCreatorInterface
-	 */
-	protected $migrator;		
-
-	/**
-	 * constructor
-	 *
-	 * @param  Jiro\Support\Migration\MigrationCreatorInterface $fileSystem
-	 * @return void
-	 */
-	public function __construct(MigrationCreatorInterface $migrator)
-	{
-		parent::__construct();
-
-		$this->migrator = $migrator;
-	}	
-
-	/**
 	 * Execute the console command.
 	 *
 	 * @return void
 	 */
 	public function fire()
 	{
-		if ($this->migrate())
-		{
-			$this->info('Product migrations created successfully!');
-		}
+		$this->createMigrations();
+
+		$this->info('Product migrations created successfully!');
+	}
+
+	/**
+	 * Create and move the migration files to app directory
+	 *
+	 * @return void
+	 */
+	public function createMigrations()
+	{	
+		$source = __DIR__ . '/../Migrations';
+
+		$destiation = $this->laravel['path.database'].'/migrations';
+
+		$this->migrationCreator = new MigrationCreator($source, $destination);
+
+		$this->migrationCreator->createMigrations();
 	}
 }
