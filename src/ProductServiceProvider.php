@@ -9,10 +9,10 @@ use Jiro\Product\Option\OptionInterface;
 use Jiro\Product\Option\EloquentOption;
 use Jiro\Product\Option\OptionValueInterface;
 use Jiro\Product\Option\EloquentOptionValue;
-use Jiro\Product\Variatiom\VariationInterface;
-use Jiro\Product\Variatiom\EloquentVariation;
-use Jiro\Product\Variatiom\VariationGeneratorInterface;
-use Jiro\Product\Variatiom\VariationGenerator;
+use Jiro\Product\Variation\VariationInterface;
+use Jiro\Product\Variation\EloquentVariation;
+use Jiro\Product\Variation\VariationGeneratorInterface;
+use Jiro\Product\Variation\VariationGenerator;
 
 class ProductServiceProvider extends ServiceProvider {
 

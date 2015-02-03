@@ -42,8 +42,8 @@ class InstallCommand extends Command {
 
 		$destiation = $this->laravel['path.database'].'/migrations';
 
-		$this->migrationCreator = new MigrationCreator($source, $destination);
+		$migrationCreator = new MigrationCreator($source, $destination);
 
-		$this->migrationCreator->createMigrations();
+		$migrationCreator->createMigrations();
 	}
 }

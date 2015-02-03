@@ -1,7 +1,7 @@
 <?php namespace Jiro\Product\Property;
 
 /**
- * Gives the product "property" abilities
+ * Should be implemented by models that support properties
  *
  * @author Andrew McLagan <andrewmclagan@gmail.com>
  */
