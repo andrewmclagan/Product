@@ -4,8 +4,8 @@ use Illuminate\Database\Eloquent\Collection;
 use Laracasts\TestDummy\Factory;
 use Carbon\Carbon;
 
-class EloquentProductTest extends TestCase {
-
+class EloquentProductTest extends TestCase 
+{
 	/** @test */
 	public function its_name_attribute_is_mutable()
 	{

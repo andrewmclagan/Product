@@ -1,14 +1,12 @@
 <?php namespace Jiro\Product;
 
-use Jiro\Product\Property\PropertySubjectInterface;
-
 /**
  * Base product interface.
  *
  * @author Andrew McLagan <andrewmclagan@gmail.com>
  */
 
-interface ProductInterface extends PropertySubjectInterface
+interface ProductInterface
 {
    /**
      * Get product name.

@@ -1,11 +1,12 @@
-<?php namespace Jiro\Product;
+<?php namespace Jiro\Product\Database\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Jiro\Product\Property\PropertyValueInterface;
-use Jiro\Product\Variation\VariableInterface;
-use Jiro\Product\Variation\VariationInterface;
-use Jiro\Product\Option\OptionInterface;
+use Jiro\Property\PropertyValueInterface;
+use Jiro\Property\PropertySubjectInterface;
+use Jiro\Variation\VariableInterface;
+use Jiro\Variation\VariationInterface;
+use Jiro\Option\OptionInterface;
 
 /**
  * Catalog product model.
@@ -13,7 +14,7 @@ use Jiro\Product\Option\OptionInterface;
  * @author Andrew McLagan <andrewmclagan@gmail.com>
  */
 
-class EloquentProduct extends Model implements ProductInterface, VariableInterface
+class Product extends Model implements ProductInterface, VariableInterface, PropertySubjectInterface
 {
     use SoftDeletes;
 
