@@ -2,11 +2,12 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Jiro\Property\PropertyValueInterface;
 use Jiro\Property\PropertySubjectInterface;
 use Jiro\Variation\VariableInterface;
-use Jiro\Variation\VariationInterface;
-use Jiro\Option\OptionInterface;
+use Jiro\Product\PropertyValueInterface;
+use Jiro\Product\VariationInterface;
+use Jiro\Product\OptionInterface;
+use Jiro\Product\ProductInterface;
 
 /**
  * Catalog product model.

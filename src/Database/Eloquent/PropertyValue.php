@@ -1,7 +1,5 @@
-<?php namespace Jiro\Product\Property;
+<?php namespace Jiro\Product\Database\Eloquent;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Jiro\Product\ProductInterface;
 use Jiro\Product\PropertyValueInterface;
 use Jiro\Property\Database\Eloquent\PropertyValue as BasePropertyValue;
