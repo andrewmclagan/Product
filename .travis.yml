@@ -13,8 +13,8 @@ matrix:
     - php: hhvm-nightly
 
 before_script:
-  - composer self-update
-  - composer install --no-interaction
+  - travis_retry self-update
+  - travis_retry composer install --prefer-source --no-interaction
 
 script:
   - vendor/bin/phpunit
