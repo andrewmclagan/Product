@@ -23,7 +23,7 @@ abstract class TestCase extends DbTestCase
      */
 	public function getMigrationsDirectory()
 	{
-		return __DIR__ . '/../Migrations';
+		return __DIR__ . '/../src/Migrations';
 	}
 }
 
