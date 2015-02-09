@@ -15,7 +15,7 @@ abstract class TestCase extends DbTestCase
      */
 	public function getServiceProviders()
 	{
-		return ['Jiro/Product/ProductServiceProvider'];
+		return ['Jiro\Product\ProductServiceProvider'];
 	}
 
     /** 
