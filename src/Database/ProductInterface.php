@@ -1,4 +1,4 @@
-<?php namespace Jiro\Product;
+<?php namespace Jiro\Product\Database;
 
 /**
  * Base product interface.
@@ -49,34 +49,6 @@ interface ProductInterface
      * @param string $description
      */
     public function setDescription($description);
-
-    /**
-     * Get meta keywords.
-     *
-     * @return string
-     */
-    public function getMetaKeywords();
-
-    /**
-     * Set meta keywords for the product.
-     *
-     * @param string $metaKeywords
-     */
-    public function setMetaKeywords($metaKeywords);
-
-    /**
-     * Get meta description.
-     *
-     * @return string
-     */
-    public function getMetaDescription();
-
-    /**
-     * Set meta description for the product.
-     *
-     * @param string $metaDescription
-     */
-    public function setMetaDescription($metaDescription);
 
     /**
      * Check whether the product is available.
